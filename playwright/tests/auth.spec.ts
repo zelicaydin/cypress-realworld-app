@@ -92,9 +92,8 @@ test.describe('User Sign-up and Login', () => {
   });
 
   test('should display signup errors', async ({ page, signupPage }) => {
-    await page.goto('/signup');
-    signupPage.goto();
-    await signupPage.signup(userInfoData);
+    // await page.goto('/signup');
+    await signupPage.goto();
     // Test first name required
     await page.locator('#firstName').fill('First');
     await page.locator('#firstName').clear();
