@@ -1,0 +1,36 @@
+name: E2E Tests
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: lts/*
+    - name: Install dependencies
+      run: yarn
+
+    - name: run app
+      run: yarn dev &
+
+    - name: wait for app to be ready
+      run: yarn wait-on http://localhost:3000
+
+    - name: Install Playwright and browsers
+      run: cd playwright && npm install && npx playwright install
+
+    - name: Run Playwright tests
+      run: cd playwright && npx playwright test
+    - uses: actions/upload-artifact@v4
+      if: ${{ !cancelled() }}
+      with:
+        name: playwright-report
+        path: playwright/playwright-report/
+        retention-days: 30

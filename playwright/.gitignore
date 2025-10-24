@@ -1,0 +1,14 @@
+# Playwright test results
+test-results/
+playwright-report/
+screenshots/
+
+# Node modules
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# IDE files
+.DS_Store
